@@ -33,8 +33,10 @@ public partial class CorsacCosmeticsPlugin : BasePlugin
         
         Assets.Initialize();
 
-        ReactorCompat.RegisterCredits();
-        
+        IL2CPPChainloader.Instance.Finished +=
+            ReactorCompat
+                .Initialize;
+
         ClassInjector.RegisterTypeInIl2Cpp<InventoryTabPaginationBehaviour>();
 
         ClassInjector.RegisterTypeInIl2Cpp<HatLocator>(new RegisterTypeOptions
@@ -56,7 +58,7 @@ public partial class CorsacCosmeticsPlugin : BasePlugin
         Info("HatLocator initialized!");
 
         Info("Loading Harmony patches...");
-        Harmony.PatchAll(Assembly.GetExecutingAssembly());
+        Harmony.PatchAll();
         Info("Harmony patches loaded!");
 
         Info("Creating necessary directories...");
