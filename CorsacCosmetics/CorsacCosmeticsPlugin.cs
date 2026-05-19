@@ -35,7 +35,7 @@ public partial class CorsacCosmeticsPlugin : BasePlugin
 
         IL2CPPChainloader.Instance.Finished +=
             ReactorCompat
-                .Initialize;
+                .RegisterCredits;
 
         ClassInjector.RegisterTypeInIl2Cpp<InventoryTabPaginationBehaviour>();
 
