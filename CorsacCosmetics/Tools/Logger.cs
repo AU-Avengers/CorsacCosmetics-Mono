@@ -1,29 +1,32 @@
-﻿namespace CorsacCosmetics.Tools;
+﻿using BepInEx.Logging;
+
+namespace CorsacCosmetics.Tools;
 
 public static class Logger
 {
+    internal static ManualLogSource LogSource { get; } = BepInEx.Logging.Logger.CreateLogSource("CorsacCosmetics");
     public static void Debug(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogDebug(message);
+        LogSource.LogDebug(message);
     }
 
     public static void Message(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogMessage(message);
+        LogSource.LogMessage(message);
     }
 
     public static void Info(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogInfo(message);
+        LogSource.LogInfo(message);
     }
 
     public static void Warning(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogWarning(message);
+        LogSource.LogWarning(message);
     }
 
     public static void Error(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogError(message);
+        LogSource.LogError(message);
     }
 }

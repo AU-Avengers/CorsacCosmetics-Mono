@@ -44,7 +44,7 @@ public class BundleLoaderV2(
         }
 
         var manifestBytes = new byte[header.ManifestLength];
-        if (fs.Read(manifestBytes.AsSpan()) != header.ManifestLength)
+        if (fs.Read(manifestBytes.AsSpan<byte>()) != header.ManifestLength)
         {
             Error("Could not read full bundle manifest!");
             return false;
@@ -119,7 +119,7 @@ public class BundleLoaderV2(
         }
 
         var manifestBytes = new byte[header.ManifestLength];
-        if (fs.Read(manifestBytes.AsSpan()) != header.ManifestLength)
+        if (fs.Read(manifestBytes.AsSpan<byte>()) != header.ManifestLength)
         {
             Error($"Could not read the full manifest from {file}. Skipping bundle.");
             return false;

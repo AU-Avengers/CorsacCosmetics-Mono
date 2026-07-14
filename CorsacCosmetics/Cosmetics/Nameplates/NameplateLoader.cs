@@ -2,23 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using CorsacCosmetics.Tools;
 using CorsacCosmetics.Unity;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace CorsacCosmetics.Cosmetics.Nameplates;
 
-public class NameplateLoader : BaseLoader
+public class NameplateLoader : IBaseLoader
 {
     public Dictionary<string, CustomNamePlate> CustomNamePlates { get; } = [];
 
-    public override void InstallCosmetics(ReferenceData refData)
+    public void InstallCosmetics(ReferenceData refData)
     {
         foreach (var (id, customNamePlate) in CustomNamePlates)
         {
@@ -34,7 +31,7 @@ public class NameplateLoader : BaseLoader
         }
     }
 
-    public override void LoadCosmetics(string directory)
+    public void LoadCosmetics(string directory)
     {
         if (!Directory.Exists(directory))
         {
@@ -65,19 +62,19 @@ public class NameplateLoader : BaseLoader
         }
     }
 
-    public override bool LocateCosmetic(string id, string type, [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType)
+    public bool LocateCosmetic(string id, string type, out Type il2CPPType)
     {
-        il2CPPType = null;
+        il2CPPType = null!;
         if (!CustomNamePlates.ContainsKey(id))
         {
             return false;
         }
 
-        il2CPPType = type == ReferenceType.NamePlateViewData ? Il2CppType.Of<NamePlateViewData>() : null;
+        il2CPPType = type == ReferenceType.NamePlateViewData ? typeof(NamePlateViewData) : null!;
         return il2CPPType != null;
     }
 
-    public override bool ProvideCosmetic(ProvideHandle handle, string id, string type)
+    public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
         if (!CustomNamePlates.TryGetValue(id, out var nameplate))
         {

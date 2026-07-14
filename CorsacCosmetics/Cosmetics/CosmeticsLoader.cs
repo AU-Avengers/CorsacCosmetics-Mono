@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using CorsacCosmetics.Cosmetics.Bundle;
 using CorsacCosmetics.Cosmetics.Bundle.V2;
@@ -8,8 +8,6 @@ using CorsacCosmetics.Cosmetics.Hats;
 using CorsacCosmetics.Cosmetics.Nameplates;
 using CorsacCosmetics.Cosmetics.Visors;
 using CorsacCosmetics.Unity;
-using Il2CppInterop.Runtime;
-using Il2CppSystem.IO;
 using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
@@ -20,9 +18,7 @@ public class CosmeticsLoader
     private static CosmeticsLoader? _cosmeticsLoader;
     public static CosmeticsLoader Instance => _cosmeticsLoader ??= new CosmeticsLoader();
 
-    private readonly Il2CppSystem.Collections.Generic.List<Il2CppSystem.Object> _emptyKeys = new();
-
-    public Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object> EmptyKeys { get; }
+    public IEnumerable<object> EmptyKeys { get; }
 
     private CosmeticReleaseGroup CosmeticGroup { get; }
 
@@ -43,7 +39,6 @@ public class CosmeticsLoader
 
     private CosmeticsLoader()
     {
-        EmptyKeys = new Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>(_emptyKeys.Pointer);
         CosmeticGroup = ScriptableObject.CreateInstance<CosmeticReleaseGroup>();
         CosmeticGroup.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -168,16 +163,16 @@ public class CosmeticsLoader
     public bool LocateCosmetic(
         string id,
         string type,
-        [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType
+        out Type il2CPPType
     )
     {
-        il2CPPType = null;
+        il2CPPType = null!;
         try
         {
             il2CPPType = type switch
             {
-                ReferenceType.Preview => Il2CppType.Of<PreviewViewData>(),
-                _ => null
+                ReferenceType.Preview => typeof(PreviewViewData),
+                _ => null!
             };
 
             return il2CPPType != null
@@ -196,7 +191,7 @@ public class CosmeticsLoader
         ProvideHandle provideHandle,
         string id,
         string type,
-        [NotNullWhen(false)] out Exception? exception
+        out Exception? exception
         )
     {
         exception = null;
@@ -216,17 +211,17 @@ public class CosmeticsLoader
         }
     }
 
-    public bool TryGetHat(string id, [NotNullWhen(true)] out CustomHat? hat)
+    public bool TryGetHat(string id, out CustomHat? hat)
     {
         return _hatLoader.CustomHats.TryGetValue(id, out hat);
     }
 
-    public bool TryGetVisor(string id, [NotNullWhen(true)] out CustomVisor? visor)
+    public bool TryGetVisor(string id, out CustomVisor? visor)
     {
         return _visorLoader.CustomVisors.TryGetValue(id, out visor);
     }
 
-    public bool TryGetNamePlate(string id, [NotNullWhen(true)] out CustomNamePlate? namePlate)
+    public bool TryGetNamePlate(string id, out CustomNamePlate? namePlate)
     {
         return _nameplateLoader.CustomNamePlates.TryGetValue(id, out namePlate);
     }

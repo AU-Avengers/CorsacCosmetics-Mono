@@ -1,6 +1,5 @@
 ﻿using System;
 using CorsacCosmetics.Cosmetics;
-using Il2CppInterop.Runtime.Injection;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -9,30 +8,18 @@ namespace CorsacCosmetics.Unity;
 
 public class HatProvider : ResourceProviderBase
 {
-    private static HatProvider? _instance;
-    private static IResourceProvider? _provider;
-    
     public static void Initialize()
     {
-        _instance = new HatProvider();
-        // interfaces r broken in il2cpp so we have to use pointer magic
-        _provider = new IResourceProvider(_instance.Pointer);
-        Addressables.ResourceManager.ResourceProviders.Insert(0, _provider);
+        var instance = new HatProvider();
+        Addressables.ResourceManager.ResourceProviders.Insert(0, instance);
     }
 
-    public HatProvider(IntPtr intPtr) : base(intPtr) { }
-
-    public HatProvider() : base(ClassInjector.DerivedConstructorPointer<HatProvider>())
+    public override bool CanProvide(Type t, IResourceLocation location)
     {
-        ClassInjector.DerivedConstructorBody(this);
+        return location.InternalId.StartsWith("corsac.", StringComparison.InvariantCulture);
     }
 
-    public override bool CanProvide(Il2CppSystem.Type t, IResourceLocation location)
-    {
-        return location.InternalId.StartsWith("corsac.");
-    }
-
-    public override Il2CppSystem.Type GetDefaultType(IResourceLocation location)
+    public override Type GetDefaultType(IResourceLocation location)
     {
         return location.ResourceType;
     }
@@ -42,10 +29,10 @@ public class HatProvider : ResourceProviderBase
         string internalId = provideHandle.Location.InternalId;
         Debug($"Processing {internalId}");
 
-        if (!internalId.StartsWith("corsac"))
+        if (!internalId.StartsWith("corsac", StringComparison.InvariantCulture))
         {
             Error($"{internalId} is not a Corsac cosmetic");
-            provideHandle.Complete<UnityEngine.Object>(null!, false, new Il2CppSystem.Exception("Not a Corsac cosmetic"));
+            provideHandle.Complete<UnityEngine.Object>(null!, false, new Exception("Not a Corsac cosmetic"));
             return;
         }
 
@@ -53,7 +40,7 @@ public class HatProvider : ResourceProviderBase
         if (idAndType.Length != 2) 
         {
             Error($"Invalid identifier: {idAndType}");
-            provideHandle.Complete<UnityEngine.Object>(null!, false, new Il2CppSystem.Exception("Invalid Corsac ID"));
+            provideHandle.Complete<UnityEngine.Object>(null!, false, new Exception("Invalid Corsac ID"));
             return;
         }
 
@@ -66,13 +53,13 @@ public class HatProvider : ResourceProviderBase
         }
         else
         {
-            Error($"Failed to provide cosmetic {id} of type {type}:\n{exception.ToString()}");
+            Error($"Failed to provide cosmetic {id} of type {type}:\n{exception}");
             provideHandle.Complete<UnityEngine.Object>(null!, false, 
-                new Il2CppSystem.Exception(exception.ToString()));
+                new Exception(exception!.ToString()));
         }
     }
 
-    public override void Release(IResourceLocation location, Il2CppSystem.Object obj)
+    public override void Release(IResourceLocation location, Object obj)
     {
         Warning("I don't know how to release cosmetic yet");
     }

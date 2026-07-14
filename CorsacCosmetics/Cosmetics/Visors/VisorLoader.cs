@@ -1,24 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using CorsacCosmetics.Tools;
 using CorsacCosmetics.Unity;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace CorsacCosmetics.Cosmetics.Visors;
 
-public class VisorLoader : BaseLoader
+public class VisorLoader : IBaseLoader
 {
     public Dictionary<string, CustomVisor> CustomVisors { get; } = [];
 
-    public override void InstallCosmetics(ReferenceData refData)
+    public void InstallCosmetics(ReferenceData refData)
     {
         foreach (var (id, customVisor) in CustomVisors)
         {
@@ -34,7 +30,7 @@ public class VisorLoader : BaseLoader
         }
     }
 
-    public override void LoadCosmetics(string directory)
+    public void LoadCosmetics(string directory)
     {
         if (!Directory.Exists(directory))
         {
@@ -65,19 +61,19 @@ public class VisorLoader : BaseLoader
         }
     }
 
-    public override bool LocateCosmetic(string id, string type, [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType)
+    public bool LocateCosmetic(string id, string type, out Type il2CPPType)
     {
-        il2CPPType = null;
+        il2CPPType = null!;
         if (!CustomVisors.ContainsKey(id))
         {
             return false;
         }
 
-        il2CPPType = type == ReferenceType.VisorViewData ? Il2CppType.Of<VisorViewData>() : null;
+        il2CPPType = type == ReferenceType.VisorViewData ? typeof(VisorViewData) : null!;
         return il2CPPType != null;
     }
 
-    public override bool ProvideCosmetic(ProvideHandle handle, string id, string type)
+    public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
         if (!CustomVisors.TryGetValue(id, out var visor))
         {

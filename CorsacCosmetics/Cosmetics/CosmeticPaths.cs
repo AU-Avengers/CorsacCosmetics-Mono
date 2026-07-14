@@ -10,7 +10,7 @@ public static class CosmeticPaths
     public static string StarlightPath => Environment.GetEnvironmentVariable("STAR_DATA_PATH")!;
     
     public static string BasePath { get; } = Path.Combine(
-        OperatingSystem.IsAndroid() ? StarlightPath : Paths.GameRootPath,
+        Constants.GetPlatformType() is Platforms.Android or Platforms.IPhone ? StarlightPath : Paths.GameRootPath,
         "CorsacCosmetics"
     );
 

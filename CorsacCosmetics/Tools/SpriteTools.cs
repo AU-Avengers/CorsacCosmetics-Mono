@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
 namespace CorsacCosmetics.Tools;
@@ -39,11 +38,11 @@ public static class SpriteTools
     {
         stream.Seek(start, SeekOrigin.Begin);
 
-        var il2CppBytes = new Il2CppStructArray<byte>(length);
-        il2CppBytes.CopyFromStream(stream, (int)length);
+        byte[] monoBytes = new byte[length];
+        stream.Read(monoBytes, 0, (int)length);
 
         var texture = new Texture2D(2, 2);
-        texture.LoadImage(il2CppBytes);
+        texture.LoadImage(monoBytes);
         return texture;
     }
 

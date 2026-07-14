@@ -1,17 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using CorsacCosmetics.Cosmetics;
-using Il2CppInterop.Runtime.Injection;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace CorsacCosmetics.Unity;
 
-public class HatLocator : Il2CppSystem.Object
+public class HatLocator : UnityEngine.Object, IResourceLocator
 {
-
-    private static HatLocator? _instance;
-    private static IResourceLocator? _locator;
 
     public static string GetGuid(string hatId, string type)
     {
@@ -20,38 +17,28 @@ public class HatLocator : Il2CppSystem.Object
 
     public static void Initialize()
     {
-        _instance = new HatLocator();
-        _locator = new IResourceLocator(_instance.Pointer);
-        Addressables.AddResourceLocator(_locator);
-    }
-
-    public HatLocator(IntPtr ptr) : base(ptr)
-    {
-    }
-    
-    public HatLocator() : base(ClassInjector.DerivedConstructorPointer<HatLocator>())
-    {
-        ClassInjector.DerivedConstructorBody(this);
+        var instance = new HatLocator();
+        Addressables.AddResourceLocator(instance);
     }
 
     public string LocatorId => GetType().FullName!;
 
-    public Il2CppSystem.Collections.Generic.IEnumerable<Il2CppSystem.Object>
+    public IEnumerable<object>
         Keys => CosmeticsLoader.Instance.EmptyKeys;
 
     private string ProviderId { get; } = typeof(HatProvider).FullName!;
 
-    public bool Locate(Il2CppSystem.Object key, Il2CppSystem.Type type,
-        out Il2CppSystem.Collections.Generic.IList<IResourceLocation> locations)
+    public bool Locate(object key, Type type,
+        out IList<IResourceLocation> locations)
     {
-        locations = null!;
+        locations = new List<IResourceLocation>();
 
         if (key.ToString() is not { } keyString)
         {
             return false;
         }
 
-        if (!keyString.StartsWith("corsac."))
+        if (!keyString.StartsWith("corsac.", StringComparison.InvariantCulture))
         {
             return false;
         }
@@ -66,25 +53,22 @@ public class HatLocator : Il2CppSystem.Object
         var realKey = split[0];
         var typeName = split[1];
 
-        if (!CosmeticsLoader.Instance.LocateCosmetic(realKey, typeName, out var il2CPPType))
+        if (!CosmeticsLoader.Instance.LocateCosmetic(realKey, typeName, out var sysType))
         {
             Error($"{realKey} not found in custom cosmetics.");
             return false;
         }
 
-        Debug($"Found cosmetic {realKey}, type {typeName}, il2cpp tyle {il2CPPType.NameOrDefault}");
+        Debug($"Found cosmetic {realKey}, type {typeName}, {sysType.FullName}");
 
         var location = new ResourceLocationBase(
             keyString,
             keyString,
             ProviderId,
-            il2CPPType
+            sysType
         );
 
-        var il2CPPList = new Il2CppSystem.Collections.Generic.List<ResourceLocationBase>();
-        il2CPPList.Add(location);
-        // pointer magic cuz il2cpp interfaces are broken
-        locations = new Il2CppSystem.Collections.Generic.IList<IResourceLocation>(il2CPPList.Pointer);
+        locations.Add(location);
 
         return true;
     }

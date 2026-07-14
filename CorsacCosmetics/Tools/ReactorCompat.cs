@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
-using BepInEx.Unity.IL2CPP;
+using BepInEx.Bootstrap;
 using HarmonyLib;
-using Version = SemanticVersioning.Version;
 
 namespace CorsacCosmetics.Tools;
 
@@ -14,12 +12,12 @@ public static class ReactorCompat
 
     public static void RegisterCredits()
     {
-        if (!IL2CPPChainloader.Instance.Plugins.TryGetValue(ReactorID, out var value))
+        if (!Chainloader.PluginInfos.TryGetValue(ReactorID, out var value))
         {
             return;
         }
 
-        var reactorPlugin = (value.Instance as BasePlugin)!;
+        var reactorPlugin = value.Instance!;
         var reactorAssembly = reactorPlugin.GetType().Assembly;
         var reactorTypes = AccessTools.GetTypesFromAssembly(reactorAssembly);
 

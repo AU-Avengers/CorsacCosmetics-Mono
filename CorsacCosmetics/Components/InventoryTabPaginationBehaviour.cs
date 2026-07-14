@@ -1,6 +1,5 @@
 ﻿using System;
 using CorsacCosmetics.Tools;
-using Il2CppInterop.Runtime.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 
 namespace CorsacCosmetics.Components;
 
-public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
+public class InventoryTabPaginationBehaviour : MonoBehaviour
 {
     public TextMeshPro title;
     public PassiveButton backButton;
@@ -19,10 +18,8 @@ public class InventoryTabPaginationBehaviour(nint cppPtr) : MonoBehaviour(cppPtr
     public int CurrentTab { get; private set; }
     public int MaxTab { get; private set; }
 
-    [HideFromIl2Cpp]
     public Func<string> GetTextFunction { get; private set; }
 
-    [HideFromIl2Cpp]
     public void Setup(InventoryTab inventoryTab, int maxTab, Func<string> getTextFunction)
     {
         tab = inventoryTab;

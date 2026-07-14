@@ -3,14 +3,14 @@ using HarmonyLib;
 
 namespace CorsacCosmetics.Patches;
 
-[HarmonyPatch(typeof(ReferenceDataManager._Initialize_d__7), "MoveNext")]
+[HarmonyPatch(typeof(ReferenceDataManager), nameof(ReferenceDataManager.Initialize))]
 public static class InstallCosmeticsPatch
 {
     private static bool _didRun = false;
 
-    public static void Postfix(ReferenceDataManager._Initialize_d__7 __instance)
+    public static void Postfix(ReferenceDataManager __instance)
     {
-        if (__instance.__1__state >= 0 || _didRun)
+        if (_didRun)
         {
             // only run after the original method has fully completed
             return;
@@ -21,7 +21,7 @@ public static class InstallCosmeticsPatch
         Info("Cosmetics loaded");
 
         Info("Patching HatManager to include custom cosmetics");
-        CosmeticsLoader.Instance.InstallCosmetics(__instance.__4__this.Refdata);
+        CosmeticsLoader.Instance.InstallCosmetics(__instance.Refdata);
         Info("Loaded custom cosmetics into HatManager");
 
         // second guard to prevent double execution

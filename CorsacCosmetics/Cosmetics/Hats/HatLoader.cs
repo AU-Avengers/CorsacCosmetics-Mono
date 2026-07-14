@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json;
 using CorsacCosmetics.Tools;
 using CorsacCosmetics.Unity;
-using Il2CppInterop.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace CorsacCosmetics.Cosmetics.Hats;
 
-public class HatLoader : BaseLoader
+public class HatLoader : IBaseLoader
 {
     public Dictionary<string, CustomHat> CustomHats { get; } = [];
 
-    public override void InstallCosmetics(ReferenceData refData)
+    public void InstallCosmetics(ReferenceData refData)
     {
         foreach (var (id, customHat) in CustomHats)
         {
@@ -32,7 +30,7 @@ public class HatLoader : BaseLoader
         }
     }
 
-    public override void LoadCosmetics(string directory)
+    public void LoadCosmetics(string directory)
     {
         if (!Directory.Exists(directory))
         {
@@ -63,19 +61,19 @@ public class HatLoader : BaseLoader
         }
     }
 
-    public override bool LocateCosmetic(string id, string type, [NotNullWhen(true)] out Il2CppSystem.Type? il2CPPType)
+    public bool LocateCosmetic(string id, string type, out Type il2CPPType)
     {
-        il2CPPType = null;
+        il2CPPType = null!;
         if (!CustomHats.ContainsKey(id))
         {
             return false;
         }
 
-        il2CPPType = type == ReferenceType.HatViewData ? Il2CppType.Of<HatViewData>() : null;
+        il2CPPType = type == ReferenceType.HatViewData ? typeof(HatViewData) : null!;
         return il2CPPType != null;
     }
 
-    public override bool ProvideCosmetic(ProvideHandle handle, string id, string type)
+    public bool ProvideCosmetic(ProvideHandle handle, string id, string type)
     {
         if (!CustomHats.TryGetValue(id, out var hat))
         {

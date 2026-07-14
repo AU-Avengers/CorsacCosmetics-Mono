@@ -28,22 +28,22 @@ public readonly record struct BundleHeader
         
         return new BundleHeader
         {
-            Magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan(0, 4)),
-            Version = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan(4, 2)),
-            Flags = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan(6, 2)),
-            ManifestLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan(8, 4)),
-            DataLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan(12, 4))
+            Magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan<byte>(0, 4)),
+            Version = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan<byte>(4, 2)),
+            Flags = BinaryPrimitives.ReadUInt16LittleEndian(buffer.AsSpan<byte>(6, 2)),
+            ManifestLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan<byte>(8, 4)),
+            DataLength = BinaryPrimitives.ReadUInt32LittleEndian(buffer.AsSpan<byte>(12, 4))
         };
     }
 
     public static void Write(Stream stream, BundleHeader header)
     {
         var buffer = new byte[16];
-        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan(0, 4), header.Magic);
-        BinaryPrimitives.WriteUInt16LittleEndian(buffer.AsSpan(4, 2), header.Version);
-        BinaryPrimitives.WriteUInt16LittleEndian(buffer.AsSpan(6, 2), header.Flags);
-        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan(8, 4), header.ManifestLength);
-        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan(12, 4), header.DataLength);
+        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan<byte>(0, 4), header.Magic);
+        BinaryPrimitives.WriteUInt16LittleEndian(buffer.AsSpan<byte>(4, 2), header.Version);
+        BinaryPrimitives.WriteUInt16LittleEndian(buffer.AsSpan<byte>(6, 2), header.Flags);
+        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan<byte>(8, 4), header.ManifestLength);
+        BinaryPrimitives.WriteUInt32LittleEndian(buffer.AsSpan<byte>(12, 4), header.DataLength);
         
         stream.Write(buffer, 0, buffer.Length);
     }

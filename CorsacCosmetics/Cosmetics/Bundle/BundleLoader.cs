@@ -62,7 +62,7 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
         }
 
         var manifestBytes = new byte[header.ManifestLength];
-        if (fs.Read(manifestBytes.AsSpan()) != header.ManifestLength)
+        if (fs.Read(manifestBytes.AsSpan<byte>()) != header.ManifestLength)
         {
             Error("Could not read full bundle manifest!");
             return false;
@@ -122,7 +122,7 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
         }
 
         var manifestBytes = new byte[header.ManifestLength];
-        if (fs.Read(manifestBytes.AsSpan()) != header.ManifestLength)
+        if (fs.Read(manifestBytes.AsSpan<byte>()) != header.ManifestLength)
         {
             Error("Could not read full bundle manifest!");
             return false;
