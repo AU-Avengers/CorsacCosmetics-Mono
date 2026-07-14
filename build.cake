@@ -19,7 +19,7 @@ Task("Build")
     }
     else if (buildId != 0)
     {
-        settings.MSBuildSettings.VersionSuffix = "ci." + buildId;
+        settings.MSBuildSettings.VersionSuffix = "" + buildId;
     }
 
     DotNetBuild(".", settings);
