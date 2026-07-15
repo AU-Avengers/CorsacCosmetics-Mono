@@ -1,9 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CorsacCosmetics.Cosmetics.Bundle.V2;
-
-[JsonSerializable(typeof(BundleManifestV2))]
-public partial class BundleManifestV2Context : JsonSerializerContext;
 
 public struct BundleManifestV2()
 {

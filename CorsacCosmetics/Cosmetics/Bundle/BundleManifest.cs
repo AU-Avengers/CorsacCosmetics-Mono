@@ -2,9 +2,6 @@
 
 namespace CorsacCosmetics.Cosmetics.Bundle;
 
-[JsonSerializable(typeof(BundleManifest))]
-public partial class BundleManifestContext : JsonSerializerContext;
-
 public struct BundleManifest()
 {
     public const uint CurrentVersion = 1;
