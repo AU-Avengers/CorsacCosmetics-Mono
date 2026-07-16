@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
 using CorsacCosmetics.Tools;
 using CorsacCosmetics.Unity;
 using UnityEngine;
@@ -110,7 +110,9 @@ public class NameplateLoader : IBaseLoader
             if (File.Exists(metadataFile))
             {
                 var metadataJson = File.ReadAllText(metadataFile);
-                metadata = JsonSerializer.Deserialize<NameplateMetadata>(metadataJson);
+                JsonSerializer serializer = new JsonSerializer();
+                var reader = new JsonTextReader(new StringReader(metadataJson));
+                metadata = serializer.Deserialize<NameplateMetadata>(reader);
             }
             else
             {

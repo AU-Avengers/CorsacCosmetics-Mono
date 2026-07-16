@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
 using CorsacCosmetics.Tools;
 using CorsacCosmetics.Unity;
 using UnityEngine;
@@ -109,7 +109,9 @@ public class VisorLoader : IBaseLoader
             if (File.Exists(metadataFile))
             {
                 var metadataJson = File.ReadAllText(metadataFile);
-                metadata = JsonSerializer.Deserialize<VisorMetadata>(metadataJson);
+                JsonSerializer serializer = new JsonSerializer();
+                var reader = new JsonTextReader(new StringReader(metadataJson));
+                metadata = serializer.Deserialize<VisorMetadata>(reader);
             }
             else
             {

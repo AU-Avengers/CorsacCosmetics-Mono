@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace CorsacCosmetics.Cosmetics.Bundle.V2;
 

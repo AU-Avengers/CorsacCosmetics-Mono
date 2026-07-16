@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace CorsacCosmetics.Cosmetics.Bundle;
 
 public struct BundleManifest()
