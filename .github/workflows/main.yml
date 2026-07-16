@@ -32,10 +32,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: CorsacCosmetics.dll
-          path: CorsacCosmetics/bin/Release/net6.0/CorsacCosmetics.dll
+          path: CorsacCosmetics/bin/Release/netstandard2.1/CorsacCosmetics.dll
 
       - uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
           draft: true
-          files: CorsacCosmetics/bin/Release/net6.0/CorsacCosmetics.dll
+          files: CorsacCosmetics/bin/Release/netstandard2.1/CorsacCosmetics.dll
