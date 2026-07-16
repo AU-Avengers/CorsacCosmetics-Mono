@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text.Json;
-using CorsacCosmetics.Cosmetics.Bundle.V2;
+using Newtonsoft.Json;
 using CorsacCosmetics.Cosmetics.Hats;
 using CorsacCosmetics.Cosmetics.Nameplates;
 using CorsacCosmetics.Cosmetics.Visors;
@@ -68,7 +67,9 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
             return false;
         }
 
-        var manifest = JsonSerializer.Deserialize<BundleManifest>(manifestBytes);
+        JsonSerializer serializer = new JsonSerializer();
+        var reader = new JsonTextReader(new StreamReader(fs));
+        var manifest = serializer.Deserialize<BundleManifest>(reader);
         if (manifest.Hats == null)
         {
             Error("Bundle data cannot be null!");
@@ -128,7 +129,9 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
             return false;
         }
 
-        var manifest = JsonSerializer.Deserialize<BundleManifest>(manifestBytes);
+        JsonSerializer serializer = new JsonSerializer();
+        var reader = new JsonTextReader(new StreamReader(fs));
+        var manifest = serializer.Deserialize<BundleManifest>(reader);
         if (manifest.Hats == null)
         {
             Error("Bundle data cannot be null!");

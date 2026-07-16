@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text.Json;
+using Newtonsoft.Json;
 using CorsacCosmetics.Cosmetics.Hats;
 using CorsacCosmetics.Cosmetics.Nameplates;
 using CorsacCosmetics.Cosmetics.Visors;
@@ -50,7 +50,9 @@ public class BundleLoaderV2(
             return false;
         }
 
-        var manifest = JsonSerializer.Deserialize<BundleManifestV2>(manifestBytes);
+        JsonSerializer serializer = new JsonSerializer();
+        var reader = new JsonTextReader(new StreamReader(fs));
+        var manifest = serializer.Deserialize<BundleManifestV2>(reader);
         if (manifest.Groups == null)
         {
             Error($"Manifest in {resourcePath} does not contain any groups. Skipping bundle.");
@@ -125,7 +127,9 @@ public class BundleLoaderV2(
             return false;
         }
 
-        var manifest = JsonSerializer.Deserialize<BundleManifestV2>(manifestBytes);
+        JsonSerializer serializer = new JsonSerializer();
+        var reader = new JsonTextReader(new StreamReader(fs));
+        var manifest = serializer.Deserialize<BundleManifestV2>(reader);
         if (manifest.Groups == null)
         {
             Error($"Manifest in {file} does not contain any groups. Skipping bundle.");
