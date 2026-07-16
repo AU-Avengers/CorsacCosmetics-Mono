@@ -5,6 +5,7 @@
         <DebugType>embedded</DebugType>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
         <VersionPrefix>2.0.1</VersionPrefix>
         <VersionSuffix>1</VersionSuffix>
