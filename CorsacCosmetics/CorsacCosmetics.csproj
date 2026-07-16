@@ -8,6 +8,7 @@
 
         <VersionPrefix>2.0.1</VersionPrefix>
         <VersionSuffix>1</VersionSuffix>
+        <Version>$(VersionPrefix).$(VersionSuffix)</Version>
         <Description>Corsac Cosmetics</Description>
     </PropertyGroup>
 
