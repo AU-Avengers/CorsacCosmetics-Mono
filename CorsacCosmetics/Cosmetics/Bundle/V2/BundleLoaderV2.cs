@@ -50,9 +50,8 @@ public class BundleLoaderV2(
             return false;
         }
 
-        JsonSerializer serializer = new JsonSerializer();
-        var reader = new JsonTextReader(new StreamReader(fs));
-        var manifest = serializer.Deserialize<BundleManifestV2>(reader);
+        var jsonString = System.Text.Encoding.UTF8.GetString(manifestBytes);
+        var manifest = JsonConvert.DeserializeObject<BundleManifestV2>(jsonString);
         if (manifest.Groups == null)
         {
             Error($"Manifest in {resourcePath} does not contain any groups. Skipping bundle.");
@@ -127,9 +126,8 @@ public class BundleLoaderV2(
             return false;
         }
 
-        JsonSerializer serializer = new JsonSerializer();
-        var reader = new JsonTextReader(new StreamReader(fs));
-        var manifest = serializer.Deserialize<BundleManifestV2>(reader);
+        var jsonString = System.Text.Encoding.UTF8.GetString(manifestBytes);
+        var manifest = JsonConvert.DeserializeObject<BundleManifestV2>(jsonString);
         if (manifest.Groups == null)
         {
             Error($"Manifest in {file} does not contain any groups. Skipping bundle.");

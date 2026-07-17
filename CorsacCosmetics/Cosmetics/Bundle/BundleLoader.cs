@@ -67,9 +67,8 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
             return false;
         }
 
-        JsonSerializer serializer = new JsonSerializer();
-        var reader = new JsonTextReader(new StreamReader(fs));
-        var manifest = serializer.Deserialize<BundleManifest>(reader);
+        var jsonString = System.Text.Encoding.UTF8.GetString(manifestBytes);
+        var manifest = JsonConvert.DeserializeObject<BundleManifest>(jsonString);
         if (manifest.Hats == null)
         {
             Error("Bundle data cannot be null!");
@@ -129,9 +128,8 @@ public class BundleLoader(HatLoader hatLoader, VisorLoader visorLoader, Nameplat
             return false;
         }
 
-        JsonSerializer serializer = new JsonSerializer();
-        var reader = new JsonTextReader(new StreamReader(fs));
-        var manifest = serializer.Deserialize<BundleManifest>(reader);
+        var jsonString = System.Text.Encoding.UTF8.GetString(manifestBytes);
+        var manifest = JsonConvert.DeserializeObject<BundleManifest>(jsonString);
         if (manifest.Hats == null)
         {
             Error("Bundle data cannot be null!");

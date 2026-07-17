@@ -109,9 +109,7 @@ public class VisorLoader : IBaseLoader
             if (File.Exists(metadataFile))
             {
                 var metadataJson = File.ReadAllText(metadataFile);
-                JsonSerializer serializer = new JsonSerializer();
-                var reader = new JsonTextReader(new StringReader(metadataJson));
-                metadata = serializer.Deserialize<VisorMetadata>(reader);
+                metadata = JsonConvert.DeserializeObject<VisorMetadata>(metadataJson);
             }
             else
             {

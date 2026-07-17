@@ -109,9 +109,7 @@ public class HatLoader : IBaseLoader
             if (File.Exists(metadataFile))
             {
                 var metadataJson = File.ReadAllText(metadataFile);
-                JsonSerializer serializer = new JsonSerializer();
-                var reader = new JsonTextReader(new StringReader(metadataJson));
-                metadata = serializer.Deserialize<HatMetadata>(reader);
+                metadata = JsonConvert.DeserializeObject<HatMetadata>(metadataJson);
             }
             else
             {
