@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using UnityEngine.Scripting;
 
 namespace CorsacCosmetics.Cosmetics.Bundle;
 
@@ -9,8 +10,11 @@ public struct BundleManifest()
     [JsonIgnore]
     public bool IsValid => Version is > 0 and <= CurrentVersion;
     public uint Version { get; set; } = 0;
+    [Preserve]
     public HatManifest[] Hats { get; set; } = [];
+    [Preserve]
     public VisorManifest[] Visors { get; set; } = [];
+    [Preserve]
     public NameplateManifest[] Nameplates { get; set; } = [];
 
     public override string ToString()
@@ -27,14 +31,23 @@ public struct HatManifest()
     public bool InFront { get; set; } = true;
     public bool NoBounce { get; set; } = true;
 
+    [Preserve]
     public SpriteData PreviewSprite { get; set; } = new();
+    [Preserve]
     public SpriteData MainSprite { get; set; } = new();
+    [Preserve]
     public SpriteData BackSprite { get; set; } = new();
+    [Preserve]
     public SpriteData ClimbSprite { get; set; } = new();
+    [Preserve]
     public SpriteData FloorSprite { get; set; } = new();
+    [Preserve]
     public SpriteData LeftMainSprite { get; set; } = new();
+    [Preserve]
     public SpriteData LeftBackSprite { get; set; } = new();
+    [Preserve]
     public SpriteData LeftClimbSprite { get; set; } = new();
+    [Preserve]
     public SpriteData LeftFloorSprite { get; set; } = new();
 }
 
@@ -44,10 +57,15 @@ public struct VisorManifest()
     public bool MatchPlayerColor { get; set; } = false;
     public bool BehindHats { get; set; } = false;
 
+    [Preserve]
     public SpriteData PreviewSprite { get; set; } = new();
+    [Preserve]
     public SpriteData IdleSprite { get; set; } = new();
+    [Preserve]
     public SpriteData LeftIdleSprite { get; set; } = new();
+    [Preserve]
     public SpriteData FloorSprite { get; set; } = new();
+    [Preserve]
     public SpriteData ClimbSprite { get; set; } = new();
 }
 
@@ -55,7 +73,9 @@ public struct NameplateManifest()
 {
     public string Name { get; set; } = "Custom Nameplate";
 
+    [Preserve]
     public SpriteData PreviewSprite { get; set; } = new();
+    [Preserve]
     public SpriteData NameplateSprite { get; set; } = new();
 }
 
