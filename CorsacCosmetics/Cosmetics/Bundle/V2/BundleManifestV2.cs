@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using UnityEngine.Scripting;
 
 namespace CorsacCosmetics.Cosmetics.Bundle.V2;
 
@@ -23,11 +22,8 @@ public struct BundleManifestV2()
 public struct GroupManifest()
 {
     public string Name { get; set; } = "Custom Cosmetics";
-    [Preserve]
     public HatManifest[] Hats { get; set; } = [];
-    [Preserve]
     public VisorManifest[] Visors { get; set; } = [];
-    [Preserve]
     public NameplateManifest[] Nameplates { get; set; } = [];
 }
 
