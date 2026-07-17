@@ -6,6 +6,9 @@ public struct BundleManifestV2()
 {
     public const uint CurrentVersion = 2;
 
+    [JsonIgnore]
+    public bool IsValid => Version is > 0 and <= CurrentVersion;
+
     public uint Version { get; set; } = 0;
 
     public GroupManifest[] Groups { get; set; } = [];

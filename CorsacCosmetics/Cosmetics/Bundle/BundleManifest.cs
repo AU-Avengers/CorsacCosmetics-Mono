@@ -1,10 +1,13 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace CorsacCosmetics.Cosmetics.Bundle;
 
 public struct BundleManifest()
 {
     public const uint CurrentVersion = 1;
 
+    [JsonIgnore]
+    public bool IsValid => Version is > 0 and <= CurrentVersion;
     public uint Version { get; set; } = 0;
     public HatManifest[] Hats { get; set; } = [];
     public VisorManifest[] Visors { get; set; } = [];
@@ -60,4 +63,7 @@ public struct SpriteData()
 {
     public uint Size { get; set; } = 0;
     public uint Offset { get; set; } = 0;
+
+    [JsonIgnore]
+    public bool HasData => Size > 0;
 }
