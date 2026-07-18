@@ -187,7 +187,6 @@ public class BundleLoaderV2(
         hatViewData.LeftBackImage = SpriteTools.LoadSpriteFromStream(fs, start + manifest.LeftBackSprite.Offset, manifest.LeftBackSprite.Size);
         hatViewData.LeftClimbImage = SpriteTools.LoadSpriteFromStream(fs, start + manifest.LeftClimbSprite.Offset, manifest.LeftClimbSprite.Size);
         hatViewData.LeftFloorImage = SpriteTools.LoadSpriteFromStream(fs, start + manifest.LeftFloorSprite.Offset, manifest.LeftFloorSprite.Size);
-        hatViewData.DontUnload().DontDestroy();
 
         var previewData = ScriptableObject.CreateInstance<PreviewViewData>();
         previewData.name = manifest.Name;
@@ -196,7 +195,6 @@ public class BundleLoaderV2(
         {
             previewData.PreviewSprite = hatViewData.MainImage;
         }
-        previewData.DontUnload().DontDestroy();
 
         var hatData = ScriptableObject.CreateInstance<HatData>();
         hatData.name = hatData.StoreName = manifest.Name;
@@ -208,13 +206,15 @@ public class BundleLoaderV2(
         hatData.ViewDataRef = new AssetReference(HatLocator.GetGuid(id, ReferenceType.HatViewData));
         hatData.PreviewData = new AssetReference(HatLocator.GetGuid(id, ReferenceType.Preview));
         hatData.PreviewCrewmateColor = manifest.MatchPlayerColor;
-        hatData.DontUnload().DontDestroy();
 
         var customHat = new CustomHat(id, hatData, hatViewData, previewData);
         hatLoader.CustomHats.Add(id, customHat);
 
         hatData.ViewDataRef.LoadAsset<HatViewData>();
         hatData.PreviewData.LoadAsset<PreviewViewData>();
+        hatViewData.DontUnload().DontDestroy();
+        previewData.DontUnload().DontDestroy();
+        hatData.DontUnload().DontDestroy();
     }
 
     private void LoadVisor(VisorManifest manifest, Stream fs, long start, string groupName)
@@ -228,7 +228,6 @@ public class BundleLoaderV2(
         visorViewData.LeftIdleFrame = SpriteTools.LoadSpriteFromStream(fs, start + manifest.LeftIdleSprite.Offset, manifest.LeftIdleSprite.Size);
         visorViewData.FloorFrame = SpriteTools.LoadSpriteFromStream(fs, start + manifest.FloorSprite.Offset, manifest.FloorSprite.Size);
         visorViewData.ClimbFrame = SpriteTools.LoadSpriteFromStream(fs, start + manifest.ClimbSprite.Offset, manifest.ClimbSprite.Size);
-        visorViewData.DontUnload().DontDestroy();
 
         var previewData = ScriptableObject.CreateInstance<PreviewViewData>();
         previewData.name = manifest.Name;
@@ -237,7 +236,6 @@ public class BundleLoaderV2(
         {
             previewData.PreviewSprite = visorViewData.IdleFrame;
         }
-        previewData.DontUnload().DontDestroy();
 
         var visorData = ScriptableObject.CreateInstance<VisorData>();
         visorData.name = manifest.Name;
@@ -247,13 +245,15 @@ public class BundleLoaderV2(
         visorData.ViewDataRef = new AssetReference(HatLocator.GetGuid(id, ReferenceType.VisorViewData));
         visorData.PreviewData = new AssetReference(HatLocator.GetGuid(id, ReferenceType.Preview));
         visorData.PreviewCrewmateColor = manifest.MatchPlayerColor;
-        visorData.DontUnload().DontDestroy();
 
         var customVisor = new CustomVisor(id, visorData, visorViewData, previewData);
         visorLoader.CustomVisors.Add(id, customVisor);
 
         visorData.ViewDataRef.LoadAsset<VisorViewData>();
         visorData.PreviewData.LoadAsset<PreviewViewData>();
+        visorViewData.DontUnload().DontDestroy();
+        previewData.DontUnload().DontDestroy();
+        visorData.DontUnload().DontDestroy();
     }
 
     private void LoadNameplate(NameplateManifest manifest, Stream fs, long start, string groupName)
@@ -263,7 +263,6 @@ public class BundleLoaderV2(
         var namePlateViewData = ScriptableObject.CreateInstance<NamePlateViewData>();
         namePlateViewData.name = manifest.Name;
         namePlateViewData.Image = SpriteTools.LoadSpriteFromStream(fs, start + manifest.NameplateSprite.Offset, manifest.NameplateSprite.Size);
-        namePlateViewData.DontUnload().DontDestroy();
 
         var previewData = ScriptableObject.CreateInstance<PreviewViewData>();
         previewData.name = manifest.Name;
@@ -272,7 +271,6 @@ public class BundleLoaderV2(
         {
             previewData.PreviewSprite = namePlateViewData.Image;
         }
-        previewData.DontUnload().DontDestroy();
 
         var namePlateData = ScriptableObject.CreateInstance<NamePlateData>();
         namePlateData.name = manifest.Name;
@@ -280,12 +278,14 @@ public class BundleLoaderV2(
         namePlateData.ProductId = id;
         namePlateData.ViewDataRef = new AssetReference(HatLocator.GetGuid(id, ReferenceType.NamePlateViewData));
         namePlateData.PreviewData = new AssetReference(HatLocator.GetGuid(id, ReferenceType.Preview));
-        namePlateData.DontUnload().DontDestroy();
 
         var customNamePlate = new CustomNamePlate(id, namePlateData, namePlateViewData, previewData);
         nameplateLoader.CustomNamePlates.Add(id, customNamePlate);
 
         namePlateData.ViewDataRef.LoadAsset<NamePlateViewData>();
         namePlateData.PreviewData.LoadAsset<PreviewViewData>();
+        namePlateViewData.DontUnload().DontDestroy();
+        previewData.DontUnload().DontDestroy();
+        namePlateData.DontUnload().DontDestroy();
     }
 }
