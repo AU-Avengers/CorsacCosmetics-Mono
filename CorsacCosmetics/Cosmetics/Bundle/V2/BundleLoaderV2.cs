@@ -212,9 +212,6 @@ public class BundleLoaderV2(
 
         hatData.ViewDataRef.LoadAssetAsync<HatViewData>();
         hatData.PreviewData.LoadAssetAsync<PreviewViewData>();
-        hatViewData.DontUnload().DontDestroy();
-        previewData.DontUnload().DontDestroy();
-        hatData.DontUnload().DontDestroy();
     }
 
     private void LoadVisor(VisorManifest manifest, Stream fs, long start, string groupName)
@@ -251,9 +248,6 @@ public class BundleLoaderV2(
 
         visorData.ViewDataRef.LoadAssetAsync<VisorViewData>();
         visorData.PreviewData.LoadAssetAsync<PreviewViewData>();
-        visorViewData.DontUnload().DontDestroy();
-        previewData.DontUnload().DontDestroy();
-        visorData.DontUnload().DontDestroy();
     }
 
     private void LoadNameplate(NameplateManifest manifest, Stream fs, long start, string groupName)
@@ -284,8 +278,5 @@ public class BundleLoaderV2(
 
         namePlateData.ViewDataRef.LoadAssetAsync<NamePlateViewData>();
         namePlateData.PreviewData.LoadAssetAsync<PreviewViewData>();
-        namePlateViewData.DontUnload().DontDestroy();
-        previewData.DontUnload().DontDestroy();
-        namePlateData.DontUnload().DontDestroy();
     }
 }

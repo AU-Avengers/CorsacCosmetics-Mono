@@ -1,4 +1,5 @@
-﻿using CorsacCosmetics.Cosmetics;
+﻿using System.Collections;
+using CorsacCosmetics.Cosmetics;
 using HarmonyLib;
 
 namespace CorsacCosmetics.Patches;
@@ -8,7 +9,7 @@ public static class InstallCosmeticsPatch
 {
     private static bool _didRun = false;
 
-    public static void Postfix(ReferenceDataManager __instance)
+    public static void Postfix(ReferenceDataManager __instance, ref IEnumerator __result)
     {
         if (_didRun)
         {
@@ -16,15 +17,27 @@ public static class InstallCosmeticsPatch
             return;
         }
 
-        Info("Loading cosmetics...");
-        CosmeticsLoader.Instance.LoadCosmetics();
-        Info("Cosmetics loaded");
+        __result = CreateWrapper(__result, () =>
+        {
+            Info("Loading cosmetics...");
+            CosmeticsLoader.Instance.LoadCosmetics();
+            Info("Cosmetics loaded");
 
-        Info("Patching HatManager to include custom cosmetics");
-        CosmeticsLoader.Instance.InstallCosmetics(__instance.Refdata);
-        Info("Loaded custom cosmetics into HatManager");
+            Info("Patching HatManager to include custom cosmetics");
+            CosmeticsLoader.Instance.InstallCosmetics(__instance.Refdata);
+            Info("Loaded custom cosmetics into HatManager");
 
-        // second guard to prevent double execution
-        _didRun = true;
+            // second guard to prevent double execution
+            _didRun = true;
+        });
+    }
+    public static System.Collections.IEnumerator CreateWrapper(System.Collections.IEnumerator original, System.Action action)
+    {
+        while (original.MoveNext())
+        {
+            yield return original.Current;
+        }
+
+        action();
     }
 }
