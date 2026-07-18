@@ -210,8 +210,8 @@ public class BundleLoaderV2(
         var customHat = new CustomHat(id, hatData, hatViewData, previewData);
         hatLoader.CustomHats.Add(id, customHat);
 
-        hatData.ViewDataRef.LoadAsset<HatViewData>();
-        hatData.PreviewData.LoadAsset<PreviewViewData>();
+        hatData.ViewDataRef.LoadAssetAsync<HatViewData>();
+        hatData.PreviewData.LoadAssetAsync<PreviewViewData>();
         hatViewData.DontUnload().DontDestroy();
         previewData.DontUnload().DontDestroy();
         hatData.DontUnload().DontDestroy();
@@ -249,8 +249,8 @@ public class BundleLoaderV2(
         var customVisor = new CustomVisor(id, visorData, visorViewData, previewData);
         visorLoader.CustomVisors.Add(id, customVisor);
 
-        visorData.ViewDataRef.LoadAsset<VisorViewData>();
-        visorData.PreviewData.LoadAsset<PreviewViewData>();
+        visorData.ViewDataRef.LoadAssetAsync<VisorViewData>();
+        visorData.PreviewData.LoadAssetAsync<PreviewViewData>();
         visorViewData.DontUnload().DontDestroy();
         previewData.DontUnload().DontDestroy();
         visorData.DontUnload().DontDestroy();
@@ -282,8 +282,8 @@ public class BundleLoaderV2(
         var customNamePlate = new CustomNamePlate(id, namePlateData, namePlateViewData, previewData);
         nameplateLoader.CustomNamePlates.Add(id, customNamePlate);
 
-        namePlateData.ViewDataRef.LoadAsset<NamePlateViewData>();
-        namePlateData.PreviewData.LoadAsset<PreviewViewData>();
+        namePlateData.ViewDataRef.LoadAssetAsync<NamePlateViewData>();
+        namePlateData.PreviewData.LoadAssetAsync<PreviewViewData>();
         namePlateViewData.DontUnload().DontDestroy();
         previewData.DontUnload().DontDestroy();
         namePlateData.DontUnload().DontDestroy();
