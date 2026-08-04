@@ -1,6 +1,7 @@
 ﻿global using static CorsacCosmetics.Tools.Logger;
 using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using CorsacCosmetics.Components;
 using CorsacCosmetics.Cosmetics;
@@ -22,6 +23,7 @@ public partial class CorsacCosmeticsPlugin : BasePlugin
 
     public static CorsacCosmeticsPlugin Instance { get; private set; } = null!;
 
+    public static ConfigEntry<bool> LogCosmetics { get; set; }
     public CorsacCosmeticsPlugin()
     {
         Instance = this;
@@ -29,6 +31,7 @@ public partial class CorsacCosmeticsPlugin : BasePlugin
 
     public override void Load()
     {
+        LogCosmetics = Config.Bind("Debug", "LogCosmetics", false, "Toggle to show what hats, visors, and nameplates are registered at boot.");
         Message("Loading Corsac Cosmetics Plugin...");
         
         Assets.Initialize();

@@ -14,7 +14,10 @@ public static class Logger
 
     public static void Info(string message)
     {
-        CorsacCosmeticsPlugin.Instance.Log.LogInfo(message);
+        if (CorsacCosmeticsPlugin.LogCosmetics.Value)
+        {
+            CorsacCosmeticsPlugin.Instance.Log.LogInfo(message);
+        }
     }
 
     public static void Warning(string message)
